@@ -75,4 +75,13 @@ app.get("/", (req, res) => {
   res.send("Portfolio backend is running.");
 });
 
+if (process.env.NODE_ENV === 'production') {
+  const path = require('path');
+  app.use(express.static(path.join(__dirname, '..', 'frontend', 'build')));
+
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, '..', 'frontend', 'build', 'index.html'));
+  });
+}
+
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
